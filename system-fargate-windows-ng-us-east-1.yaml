@@ -1,31 +1,31 @@
 # cluster.yaml
 # An example of ClusterConfig containing Windows and Linux node groups to support Windows workloads
-# This example should be run with `eksctl create cluster -f system-fargate-windows-ng-us-east-1.yaml --install-vpc-controllers`
+# This example should be run with `eksctl create cluster -f system-fargate-windows-ng-us-east-1.yaml --install-vpc-controllers --fargate`
 ---
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: windowsdemo
+  name: windowsedemo
   region: us-east-1
 availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
 vpc:
-  cidr: 13.10.0.0/16
+  cidr: 12.10.0.0/16
   nat:
     gateway: HighlyAvailable # other options: Disable, Single (default)
 
-fargateProfiles:
-  - name: fp-01
-    selectors:
-      - namespace: fargate
-      # All workloads in the "kube-system" Kubernetes namespace will be
-      # scheduled onto Fargate:
-      - namespace: kube-system
-# managedNodeGroups:
-#   - name: linux-managed-ng
-#     instanceType: t3.large
-#     minSize: 2
-#     maxSize: 3
+# fargateProfiles:
+#   - name: fp-01
+#     selectors:
+#       - namespace: fargate
+#       # All workloads in the "kube-system" Kubernetes namespace will be
+#       # scheduled onto Fargate:
+#       - namespace: kube-system
+managedNodeGroups:
+  - name: linux-managed-ng
+    instanceType: t3.large
+    minSize: 2
+    maxSize: 3
 
 nodeGroups:
   - name: windows-ng
